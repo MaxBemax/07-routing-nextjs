@@ -3,7 +3,7 @@ import Notes from './Notes.client';
 import { NoteTag, noteTags } from '@/types/note';
 
 interface NotesPageProps {
-  params: { slug?: string[] };
+  params: Promise<{ slug?: string[] }>;
 }
 
 export default async function FilteredNotesPage({ params }: NotesPageProps) {
