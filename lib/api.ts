@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { CreateNoteFields, Note } from '../types/note';
+import type { CreateNoteFields, Note, NoteTag } from '../types/note';
 
 export interface FetchNotesResponse {
   notes: Note[];
@@ -20,7 +20,8 @@ const headers = {
 export async function fetchNotes(
   page: number = 1,
   perPage: number = 12,
-  search: string = ''
+  search: string = '',
+  tag?: NoteTag
 ): Promise<FetchNotesResponse> {
   const { data } = await axios.get<FetchNotesResponse>(BASE_URL, {
     headers,
@@ -28,6 +29,7 @@ export async function fetchNotes(
       page,
       perPage,
       search,
+      ...(tag ? { tag } : {}),
     },
   });
   return data;

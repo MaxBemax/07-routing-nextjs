@@ -12,14 +12,16 @@ import { useDebouncedCallback } from 'use-debounce';
 import css from './NotesPage.module.css';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import { NoteTag } from '@/types/note';
 
 type NotesPageProps = {
   initialData: FetchNotesResponse;
+  tag?: NoteTag;
 };
 
 const PER_PAGE = 12;
 
-export default function Notes({ initialData }: NotesPageProps) {
+export default function Notes({ initialData, tag }: NotesPageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
@@ -30,8 +32,8 @@ export default function Notes({ initialData }: NotesPageProps) {
   }, 300);
 
   const { data, isPending, isError } = useQuery<FetchNotesResponse, Error>({
-    queryKey: ['notes', page, search],
-    queryFn: () => fetchNotes(page, PER_PAGE, search),
+    queryKey: ['notes', page, search, tag],
+    queryFn: () => fetchNotes(page, PER_PAGE, search, tag),
     placeholderData: keepPreviousData,
     initialData: page === 1 && search === '' ? initialData : undefined,
   });
