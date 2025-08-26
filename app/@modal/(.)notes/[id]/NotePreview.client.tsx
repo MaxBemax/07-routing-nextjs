@@ -23,6 +23,7 @@ export default function NotePreviewClient({ noteId }: NotePreviewClientProps) {
     queryKey: ['note', noteId],
     queryFn: () => fetchNoteById(noteId),
     enabled: !!noteId,
+    refetchOnMount: false,
   });
 
   if (!noteId) return null;
